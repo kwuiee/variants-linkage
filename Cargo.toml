@@ -1,0 +1,22 @@
+[package]
+name = "varlink"
+version = "0.1.0"
+edition = "2018"
+authors = ["Xiaochuan Liu<sean.lyo@outlook.com>"]
+description = "Cis/trans linkage calculator for variant pair."
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = "=3.0.0-beta.2"
+bam = "^0"
+nom = "^6"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+opt-level = 3
+
+[dev-dependencies]
+bam = "^0"

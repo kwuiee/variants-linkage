@@ -1,0 +1,3 @@
+Support for some unregular/unformatted HGVS variants.
+More checks for HGVS variant parsing.
+Support for pair reads counting, e.g. first variant on read1, second variant on read2.
