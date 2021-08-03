@@ -1,6 +1,6 @@
 [package]
 name = "varlink"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2018"
 authors = ["Xiaochuan Liu<sean.lyo@outlook.com>"]
 description = "Cis/trans linkage calculator for variant pair."

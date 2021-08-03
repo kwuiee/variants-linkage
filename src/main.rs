@@ -4,29 +4,11 @@ extern crate bam;
 extern crate varlink;
 
 use std::fs::File;
-use std::{fmt, io};
+use std::io;
 
 use bam::{IndexedReader, Region};
 use clap::{AppSettings, Clap};
-use varlink::{ValidateOptions, Variant, VariantValidate};
-
-#[derive(Debug, Default)]
-struct Link {
-    both: u32,
-    first: u32,
-    second: u32,
-    neither: u32,
-}
-
-impl fmt::Display for Link {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(
-            f,
-            "{{\n  \"both\": {},\n  \"first\": {},\n  \"second\": {},\n  \"neither\": {}\n}}",
-            self.both, self.first, self.second, self.neither
-        )
-    }
-}
+use varlink::{Link, ValidateOptions, Variant, VariantValidate};
 
 #[derive(Clap)]
 #[clap(name = crate_name!(), version = crate_version!(), author = crate_authors!(), about = crate_description!())]
