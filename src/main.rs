@@ -1,14 +1,14 @@
 #[macro_use]
 extern crate clap;
 extern crate bam;
-extern crate varlink;
 
 use std::fs::File;
 use std::io;
 
 use bam::{IndexedReader, Region};
 use clap::{AppSettings, Clap};
-use varlink::{Link, ValidateOptions, Variant, VariantValidate};
+
+use varlink::{Link, ValidateOptions, VarFormat, Variant, VariantValidate};
 
 #[derive(Clap)]
 #[clap(name = crate_name!(), version = crate_version!(), author = crate_authors!(), about = crate_description!())]
@@ -18,6 +18,8 @@ struct Opts {
     first: String,
     #[clap(short = '2', long, about = "Second variant, in HGVS format.")]
     second: String,
+    #[clap(long, default_value = "hgvs", about = "Variant format, HGVS or Vcf.")]
+    fmt: VarFormat,
     #[clap(short, long, about = "Bam file path.")]
     bam: String,
     #[clap(
@@ -60,9 +62,9 @@ fn get_merge_region(
 fn main() -> Result<(), io::Error> {
     let opts: Opts = Opts::parse();
     let mut link = Link::default();
-    let first = Variant::parse(&opts.first)
+    let first = Variant::from(&opts.first, &opts.fmt)
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, format!("{}", e)))?;
-    let second = Variant::parse(&opts.second)
+    let second = Variant::from(&opts.second, &opts.fmt)
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, format!("{}", e)))?;
     let mut reader = IndexedReader::from_path(&opts.bam)?;
     let region = get_merge_region(&reader, &first, &second)?;

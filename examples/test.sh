@@ -5,10 +5,12 @@
 #   1:144852606G>A
 #   1:144852633_144852634del
 
+# hgvs format
 cargo run -- \
 	-b 'tests/test.1:144852532-144852632.bam' \
-	-1 '1:144852532_144852533insCCC' -2 '1:144852537T>C'
+	-1 '1:g.144852532_144852533insCCC' -2 '1:g.144852537T>C'
 
+# simplified hgvs format
 cargo run -- \
 	-b 'tests/test.1:144852532-144852632.bam' \
 	-1 '1:144852532_144852533insCCC' -2 '1:144852545C>T'
@@ -20,6 +22,11 @@ cargo run -- \
 cargo run -- \
 	-b 'tests/test.1:144852532-144852632.bam' \
 	-1 '1:144852532_144852533insCCC' -2 '1:144852633_144852634del'
+
+# vcf format
+cargo run -- \
+	-b 'tests/test.1:144852532-144852632.bam' --fmt vcf \
+	-1 '1:144852532G>GCCC' -2 '1:144852632TAA>T'
 
 cargo run -- \
 	-b 'tests/test.1:144852532-144852632.bam' \

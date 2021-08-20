@@ -46,7 +46,7 @@ impl VariantValidate for Record {
     /// use bam::record::Record;
     /// use varlink::{Variant, VariantValidate, ValidateOptions};
     ///
-    /// let var = Variant::parse("chr1:123456Adel").unwrap();
+    /// let var = Variant::from_hgvs("chr1:g.123456Adel").unwrap();
     /// let options = ValidateOptions::default();
     /// let record = Record::new();
     ///

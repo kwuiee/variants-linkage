@@ -7,7 +7,7 @@ use varlink::{ValidateOptions, Variant, VariantValidate};
 #[test]
 fn test_validate_insertion() {
     // MACH:453:FLOWCELL:1:1222:15483:21825
-    let var = Variant::parse("1:144852532_144852533insCCC").unwrap();
+    let var = Variant::from_hgvs("1:144852532_144852533insCCC").unwrap();
     let options = ValidateOptions::default();
     let mut reader = BamReader::from_path("tests/test.1:144852532-144852632.bam", 0).unwrap();
     let rec = loop {
@@ -36,7 +36,7 @@ fn test_validate_insertion() {
     assert!(rec.validate(&var, &options).unwrap());
     assert!(!rec
         .validate(
-            &Variant::parse("1:144852532_144852533insCCG").unwrap(),
+            &Variant::from_hgvs("1:144852532_144852533insCCG").unwrap(),
             &options
         )
         .unwrap());
@@ -45,7 +45,7 @@ fn test_validate_insertion() {
 #[test]
 fn test_validate_deletion() {
     // MACH:453:FLOWCELL:1:1208:9643:7138
-    let var = Variant::parse("1:144852633_144852634del").unwrap();
+    let var = Variant::from_hgvs("1:144852633_144852634del").unwrap();
     let options = ValidateOptions::default();
     let mut reader = BamReader::from_path("tests/test.1:144852532-144852632.bam", 0).unwrap();
     let rec = loop {
@@ -74,7 +74,7 @@ fn test_validate_deletion() {
     assert!(rec.validate(&var, &options).unwrap());
     assert!(!rec
         .validate(
-            &Variant::parse("1:144852633_144852635del").unwrap(),
+            &Variant::from_hgvs("1:144852633_144852635del").unwrap(),
             &options
         )
         .unwrap());
@@ -83,7 +83,7 @@ fn test_validate_deletion() {
 #[test]
 fn test_validate_snv() {
     // MACH:453:FLOWCELL:1:2121:4255:24267
-    let var = Variant::parse("1:144852545C>T").unwrap();
+    let var = Variant::from_hgvs("1:144852545C>T").unwrap();
     let options = ValidateOptions::default();
     let mut reader = BamReader::from_path("tests/test.1:144852532-144852632.bam", 0).unwrap();
     let rec = loop {
@@ -99,15 +99,15 @@ fn test_validate_snv() {
     };
     assert!(rec.validate(&var, &options).unwrap());
     assert!(!rec
-        .validate(&Variant::parse("1:144852545C>A").unwrap(), &options)
+        .validate(&Variant::from_hgvs("1:144852545C>A").unwrap(), &options)
         .unwrap());
 }
 
 #[test]
 fn test_validate_merge() {
     // MACH:453:FLOWCELL:1:2121:4255:24267
-    let var1 = Variant::parse("1:144854597T>C").unwrap();
-    let var2 = Variant::parse("1:144854598C>T").unwrap();
+    let var1 = Variant::from_hgvs("1:144854597T>C").unwrap();
+    let var2 = Variant::from_hgvs("1:144854598C>T").unwrap();
     let mut options = ValidateOptions::default();
     let mut reader = BamReader::from_path("tests/merge.1:144854597-144854608.bam", 0).unwrap();
     let rec = loop {
