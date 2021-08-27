@@ -18,7 +18,7 @@ impl ValidateOptions {
 fn logical_merge(e1: &Edit, e2: &Edit, merge: bool) -> bool {
     if e1.is_identity() || e2.is_identity() {
         false
-    } else if e1.is_delins() && e2.is_sub() {
+    } else if (e1.is_delins() && e2.is_sub()) || (e1.is_sub() && e2.is_delins()) {
         merge
     } else if e1.is_delins() || e2.is_delins() {
         true

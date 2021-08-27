@@ -130,3 +130,28 @@ fn test_validate_merge() {
     assert!(rec.validate(&var1, &options).unwrap());
     assert!(rec.validate(&var2, &options).unwrap());
 }
+
+#[test]
+fn test_validate_multiple_snp() {
+    let var1 = Variant::from_hgvs("1:144854047CCdelinsTG").unwrap();
+    let var2 = Variant::from_hgvs("1:144854049C>G").unwrap();
+    let options = ValidateOptions::default();
+    let mut reader = BamReader::from_path(
+        "/mnt/d/dev/Repos/variants-merger/tests/K020232T.1:144851600-145076500.bam",
+        0,
+    )
+    .unwrap();
+    let rec = loop {
+        let v = if let Some(r) = reader.next() {
+            r
+        } else {
+            panic!("Record not found.");
+        };
+        let v = v.unwrap();
+        if v.name() == b"A00601:453:H35WVDSX2:1:1537:20112:31093" {
+            break v;
+        };
+    };
+    assert!(rec.validate(&var1, &options).unwrap());
+    assert!(rec.validate(&var2, &options).unwrap());
+}
