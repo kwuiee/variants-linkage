@@ -152,9 +152,14 @@ impl VariantValidate for Record {
                 refnt = refseq.next();
             } else if curr.is_deletion() {
                 break Some(false);
-            } else if curr.record_nt().as_ref() == altnt && curr.ref_nt().as_ref() == refnt {
-                // Match or mismatch consumes a variant ref and alt pair nts.
-                refnt = refseq.next();
+            } else if curr.record_nt().as_ref() == altnt {
+                // 1. Match or mismatch consumes a variant ref and alt pair nts.
+                // 2. Delins with ref sequence, comsume a variant ref and alt pair nts
+                //  if record ref nt == variant ref nt, otherwise consume only a variant alt nt.
+                // 3. Delins without ref sequence, consume a variant alt.
+                if refnt.is_some() && curr.ref_nt().as_ref() == refnt {
+                    refnt = refseq.next();
+                };
                 altnt = altseq.next();
             } else {
                 break Some(false);

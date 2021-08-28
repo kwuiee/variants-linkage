@@ -133,14 +133,10 @@ fn test_validate_merge() {
 
 #[test]
 fn test_validate_multiple_snp() {
-    let var1 = Variant::from_hgvs("1:144854047CCdelinsTG").unwrap();
+    let var1 = Variant::from_hgvs("1:144854047_144854048delinsTG").unwrap();
     let var2 = Variant::from_hgvs("1:144854049C>G").unwrap();
     let options = ValidateOptions::default();
-    let mut reader = BamReader::from_path(
-        "/mnt/d/dev/Repos/variants-merger/tests/K020232T.1:144851600-145076500.bam",
-        0,
-    )
-    .unwrap();
+    let mut reader = BamReader::from_path("tests/triple-snp.1:144854047-144854049.bam", 0).unwrap();
     let rec = loop {
         let v = if let Some(r) = reader.next() {
             r
@@ -148,7 +144,7 @@ fn test_validate_multiple_snp() {
             panic!("Record not found.");
         };
         let v = v.unwrap();
-        if v.name() == b"A00601:453:H35WVDSX2:1:1537:20112:31093" {
+        if v.name() == b"MACH:FLOWCELL:1:1537:20112:31093" {
             break v;
         };
     };
